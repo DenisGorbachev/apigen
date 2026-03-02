@@ -12,7 +12,7 @@ pub struct Command {
 
 #[derive(clap::Subcommand, Clone, Debug)]
 pub enum Subcommand {
-    Print(PrintCommand),
+    Print(RunCommand),
 }
 
 impl Command {
@@ -33,6 +33,6 @@ pub enum CommandRunError {
     PrintCommandRunFailed { source: PrintCommandRunError },
 }
 
-mod print_command;
+mod run_command;
 
-pub use print_command::*;
+pub use run_command::*;

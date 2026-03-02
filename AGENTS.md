@@ -423,6 +423,20 @@ You are running in a sandbox with limited network access.
 * If you need to run a network command, just do it without checking permissions (they will be enforced automatically)
 * If you need to read the data from other domains, use the web search tool (this tool is executed outside of sandbox)
 
+## Guidelines for `serde`
+
+* Every input data type must derive `Serialize` and `Deserialize`
+* Every `Option`-wrapped field must have attributes:
+  * `#[serde(skip_serializing_if = "Option::is_none")]`
+* Every `OffsetDateTime` field must have attributes:
+  * `#[serde(with = "time::serde::rfc3339")]`
+* Every `Option<OffsetDateTime>` field must have attributes:
+  * `#[serde(with = "time::serde::rfc3339::option")]`
+* Every field that stores a physical value must be serialized as a map that includes at least two fields: `value` and `unit`
+  * `value` must be a primitive type
+  * `unit` must be a string that contains the unit name in singular form (for example: "nanosecond", "second", "minute", "kilogram", "meter")
+    * `unit` may contain a prefix (for example: "nano", "kilo")
+
 ## Guidelines for `subtype`
 
 * The macro calls that begin with `subtype` (for example, `subtype!` and `subtype_string!`) expand to newtypes.
@@ -1951,15 +1965,20 @@ strum = { version = "0.27.2", features = ["derive"] }
 stub-macro = { version = "0.2.1" }
 subtype = { git = "https://github.com/DenisGorbachev/subtype" }
 thiserror = "2.0.17"
-tokio = { version = "1.39.2", features = ["macros", "fs", "net", "rt", "rt-multi-thread"] }
+tokio = { version = "1.49.0", features = ["macros", "fs", "net", "rt", "rt-multi-thread"] }
+futures = "0.3.32"
+serde = { version = "1.0.228", features = ["derive"] }
+quick-xml = { version = "0.39", optional = true, features = ["serialize"] }
+serde_json = "1.0.149"
+syn = { version = "2.0.117", features = ["parsing", "printing", "full"] }
 ```
 
 ### src/main.rs
 
 ```rust
+use apigen::Command;
 use clap::Parser;
 use errgonomic::exit_result;
-use apigen::Command;
 use std::process::ExitCode;
 
 #[tokio::main]
@@ -1982,4 +2001,12 @@ fn verify_cli() {
 mod command;
 
 pub use command::*;
+mod functions;
+mod types;
+pub use types::*;
+mod constants;
+pub use constants::*;
+mod traits;
+pub use traits::*;
+mod prompts;
 ```
