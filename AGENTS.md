@@ -1943,7 +1943,7 @@ exclude = [
     "mise.toml",
     "rumdl.toml",
     "rustfmt.toml",
-    "yolobox"
+    ".yolobox"
 ]
 
 [package.metadata.details]
@@ -1995,9 +1995,25 @@ fn verify_cli() {
 }
 ```
 
+### fnox.toml
+
+```toml
+#:schema https://fnox.jdx.dev/schema.json
+
+if_missing = "error"
+
+[providers]
+keychain = { type = "keychain", service = "rust-pre-public-lib-template" }
+pass = { type = "password-store", prefix = "rust-pre-public-lib-template/" }
+```
+
 ### src/lib.rs
 
 ```rust
+//! This is a module-level comment for a Rust lib
+
+#![deny(clippy::arithmetic_side_effects)]
+
 mod command;
 
 pub use command::*;
