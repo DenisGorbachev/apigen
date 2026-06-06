@@ -2123,8 +2123,8 @@ syn = { version = "2.0.117", features = ["parsing", "printing", "full"] }
 if_missing = "error"
 
 [providers]
-keychain = { type = "keychain", service = "rust-pre-public-cli-template" }
-pass = { type = "password-store", prefix = "rust-pre-public-cli-template/" }
+keychain = { type = "keychain", service = "apigen" }
+pass = { type = "password-store", prefix = "apigen/" }
 ```
 
 ### src/main.rs
