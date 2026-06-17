@@ -11,7 +11,7 @@ A Rust struct that contains the fields for data that is shared between API reque
 Requirements:
 
 - Must have attributes:
-  - `#[derive(Clone, Debug)]`
+  - `#[derive(Debug)]`
 - Must have fields:
   - `pub inner: HttpClient` (`use reqwest::Client as HttpClient;`)
   - `pub base: Url`
