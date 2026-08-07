@@ -1,6 +1,7 @@
-use crate::{PathContents, TryFromPathBufPathContents};
+use crate::{PathContents, TryFromAsync, TryFromPathBufPathContents};
 use derive_more::From;
 use futures::TryStreamExt;
+use quick_xml::se::to_writer_with_root;
 use std::path::Path;
 use subtype::subtype_string;
 use thiserror::Error;
@@ -9,7 +10,7 @@ subtype_string!(
     pub struct Context(pub String);
 );
 
-impl crate::TryFromAsync<&Path> for Context {
+impl TryFromAsync<&Path> for Context {
     type Error = TryFromPathErrorForContext;
 
     /// The output will contain a newline at the end
@@ -23,7 +24,7 @@ impl crate::TryFromAsync<&Path> for Context {
 }
 
 pub async fn fold_path_contents_res(mut acc: String, contents: PathContents) -> Result<String, TryFromPathErrorForContext> {
-    quick_xml::se::to_writer_with_root(&mut acc, "file", &contents).unwrap();
+    to_writer_with_root(&mut acc, "file", &contents).unwrap();
     acc.push('\n');
     Ok(acc)
 }
