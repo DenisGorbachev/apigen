@@ -1,6 +1,6 @@
 use crate::prompts::get_types_prompt;
 use crate::{Context, TryFromAsync};
-use clap::{Parser, value_parser};
+use clap::Parser;
 use std::fs::create_dir_all;
 use std::path::PathBuf;
 use std::process::ExitCode;
@@ -9,11 +9,11 @@ use thiserror::Error;
 #[derive(Parser, Clone, Debug)]
 pub struct RunCommand {
     /// The source directory with API docs
-    #[arg(short, long, value_parser = value_parser!(PathBuf))]
+    #[arg(short, long)]
     source: PathBuf,
 
     /// The target directory with API client
-    #[arg(short, long, value_parser = value_parser!(PathBuf))]
+    #[arg(short, long)]
     target: PathBuf,
 }
 
