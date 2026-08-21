@@ -2279,8 +2279,8 @@ if_missing = "error"
 env = "exec"
 
 [providers]
-keychain = { type = "keychain", service = "rust-private-lib-template" }
-pass = { type = "password-store", prefix = "rust-private-lib-template/" }
+keychain = { type = "keychain", service = "apigen" }
+pass = { type = "password-store", prefix = "apigen/" }
 age = { type = "age", recipients = [
     "age1sf4r4amev2svqr6llwg8hgtz9n7p5qdh7hh0mavcshzfrmgfduksnq3hql",
     "age1605gsnxpe536sprwccyumq74veg0g80u55n8ggems0t8deau6qdsfnq3m3"
@@ -2296,7 +2296,7 @@ resolver = "3"
 [workspace.package]
 version = "0.1.0"
 edition = "2024"
-rust-version = "1.85.0"
+rust-version = "1.88.0"
 license = "Apache-2.0 OR MIT"
 homepage = "https://github.com/DenisGorbachev/apigen"
 repository = "https://github.com/DenisGorbachev/apigen"
@@ -2377,18 +2377,6 @@ serde = { version = "1.0.228", features = ["derive"] }
 quick-xml = { version = "0.39", features = ["serialize"] }
 serde_json = "1.0.149"
 syn = { version = "2.0.117", features = ["parsing", "printing", "full"] }
-```
-
-#### fnox.toml
-
-```toml
-#:schema https://fnox.jdx.dev/schema.json
-
-if_missing = "error"
-
-[providers]
-keychain = { type = "keychain", service = "apigen" }
-pass = { type = "password-store", prefix = "apigen/" }
 ```
 
 #### src/lib.rs
