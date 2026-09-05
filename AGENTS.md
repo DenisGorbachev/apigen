@@ -531,6 +531,10 @@ Examples:
       - Then: "\n\n" and a Markdown nested list of fixes where each fix must have a format `{number}. {description}` (the numbers should start from 1 for each list of fixes)
       - Else: the exact text "none."
 
+#### Publishable package
+
+A package that has a remote whose name contains `public` or `pre-public` and ends with `template`.
+
 ### Guidelines for `serde`
 
 #### Requirements
@@ -542,10 +546,6 @@ Examples:
   - `#[serde(with = "time::serde::rfc3339")]`
 - Every `Option<OffsetDateTime>` field must have attributes:
   - `#[serde(with = "time::serde::rfc3339::option")]`
-- Every field that stores a physical value must be serialized as a map that includes at least two fields: `value` and `unit`
-  - `value` must be a primitive type
-  - `unit` must be a string that contains the unit name in singular form (for example: "nanosecond", "second", "minute", "kilogram", "meter")
-    - `unit` may contain a prefix (for example: "nano", "kilo")
 
 #### Notes
 
@@ -611,6 +611,8 @@ fn verify_cli() {
 ##### File `src/command.rs`
 
 - Must define a [command-like struct](#command-like-struct) named `Command`
+  - Must have attributes:
+    - `#[command(author, version, about, propagate_version = true, flatten_help = true, disable_help_subcommand = true)]`
 - Must define a [subcommand-like enum](#subcommand-like-enum) named `Subcommand`
 
 Example:
@@ -622,7 +624,7 @@ use errgonomic::map_err;
 use thiserror::Error;
 
 #[derive(clap::Parser, Debug)]
-#[command(author, version, about, propagate_version = true)]
+#[command(author, version, about, propagate_version = true, flatten_help = true, disable_help_subcommand = true)]
 pub struct Command {
     #[command(subcommand)]
     subcommand: Subcommand,
@@ -663,7 +665,13 @@ pub use print_command::*;
 A struct that contains fields for CLI arguments.
 
 - Must have a name that is a concatenation of all command names leading up to and including this command name, and ends with `Command` (see example above)
-- Must derive `clap::Parser`
+- Must have at least the following attributes:
+  - `derive`
+    - Must contain at least:
+      - `Parser` (`use clap::Parser`)
+  - `command`
+    - Must contain at least:
+      - `flatten_help = true`
 - Must be attached to a parent module: if it's a top-level command: `src/lib.rs`, else: `src/command.rs`
 - For each field:
   - If the field has a collection type (e.g. `Vec`), then it must have attribute `num_args = 1..`
@@ -683,7 +691,10 @@ Command example:
 An enum that contains variants for CLI subcommands.
 
 - Must have a name that is a concatenation of all command names leading up to and including this command name, and ends with `Subcommand` (see example above)
-- Must derive `clap::Subcommand`
+- Must have at least the following attributes:
+  - `derive`
+    - Must contain at least:
+      - `Subcommand` (`use clap::Subcommand`)
 - Must be located in the same file as its parent command struct
 - Each variant must be a tuple variant containing exactly one command
 
@@ -2141,6 +2152,7 @@ cfg_if::cfg_if! {
 
 ```shell
 origin
+repoconf-rust-pre-public-cli-template
 ```
 
 ### Project files
