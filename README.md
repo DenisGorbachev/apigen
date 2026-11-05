@@ -6,7 +6,7 @@ This is a template for a Rust CLI app.
 
 **IMPORTANT**:
 
-* Change the name of the package in `Cargo.toml`
+- Change the name of the package in `Cargo.toml`
 
 ## Gratitude
 
