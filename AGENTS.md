@@ -1654,22 +1654,15 @@ readme = { generate = false }
 workspace = true
 
 [dependencies]
-clap = { version = "4.5.11", features = ["derive", "env"] }
-derive-getters = { version = "0.5.0", features = ["auto_copy_getters"] }
-derive-new = "0.7.0"
 derive_more = { version = "2.1.1", features = ["full"] }
-errgonomic = { git = "https://github.com/DenisGorbachev/errgonomic" }
-itertools = "0.14.0"
-standard-traits = { git = "https://github.com/DenisGorbachev/standard-traits" }
-strum = { version = "0.27.2", features = ["derive"] }
-stub-macro = { version = "0.2.1" }
 subtype = { git = "https://github.com/DenisGorbachev/subtype" }
-thiserror = "2.0.17"
+clap = { version = "4.5.11", features = ["derive", "env"] }
+errgonomic = { git = "https://github.com/DenisGorbachev/errgonomic" }
+thiserror = "2.0.21"
 tokio = { version = "1.49.0", features = ["macros", "fs", "net", "rt", "rt-multi-thread"] }
 futures = "0.3.32"
 serde = { version = "1.0.228", features = ["derive"] }
 quick-xml = { version = "0.39", features = ["serialize"] }
-serde_json = "1.0.149"
 syn = { version = "2.0.117", features = ["parsing", "printing", "full"] }
 ```
 
