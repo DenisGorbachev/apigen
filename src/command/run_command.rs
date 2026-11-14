@@ -31,10 +31,13 @@ impl RunCommand {
     }
 }
 
-pub async fn get_types(_context: &Context) -> Result<Vec<syn::Item>, ()> {
+pub async fn get_types(_context: &Context) -> Result<Vec<syn::Item>, GetTypesError> {
     let _prompt = get_types_prompt();
     todo!()
 }
+
+#[derive(Error, Debug)]
+pub enum GetTypesError {}
 
 #[derive(Error, Debug)]
 pub enum PrintCommandRunError {}
